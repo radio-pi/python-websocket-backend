@@ -14,7 +14,7 @@ class MpdProtocol(WebSocketServerProtocol):
         print("WebSocket connection open.")
         self.run = True
         self.client.connect("localhost", 6600)
-        self.doPing()
+        #self.doPing()
 
     def doPing(self):
         if self.run:
@@ -23,13 +23,15 @@ class MpdProtocol(WebSocketServerProtocol):
             reactor.callLater(5, self.doPing)
 
     def onMessage(self, payload, isBinary):
-        if isBinary:
-            print("Binary message received: {0} bytes".format(len(payload)))
-        else:
-            print("Text message received: {0}".format(payload.decode('utf8')))
+        if not isBinary:
+            message = payload.decode('utf8') 
+            print("Text message received: {0}".format(message))
+            if message == "mpd_version":
+                payload = self.client.mpd_version
+                print(self.client.mpd_version)
 
         # echo back message verbatim
-        self.sendMessage(payload, isBinary)
+        self.sendMessage(payload)
 
     def onClose(self, wasClean, code, reason):
         print("WebSocket connection closed: {0}".format(reason))

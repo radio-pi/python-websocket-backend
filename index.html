@@ -31,8 +31,8 @@
 
          function sendText() {
             if (isopen) {
-               socket.send("Hello, world!");
-               console.log("Text message sent.");               
+               socket.send("mpd_version");
+               console.log("mpd_version");               
             } else {
                console.log("Connection not opened.")
             }
