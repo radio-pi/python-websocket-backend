@@ -6,7 +6,7 @@ This project should replace the old node.js backend some day.
 Install dependencies with:
 
 ``` 
-pip install autobahn[twisted,accelerate]
+pip install -r requirements.txt
 ``` 
 
 Run with:

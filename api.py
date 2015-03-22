@@ -1,7 +1,11 @@
+from mpd import MPDClient
 from autobahn.twisted.websocket import WebSocketServerProtocol, WebSocketServerFactory
 
 
 class MpdProtocol(WebSocketServerProtocol):
+
+    def __init__(self):
+        self.client = MPDClient()
 
     def onConnect(self, request):
         print("Client connecting: {0}".format(request.peer))
@@ -9,6 +13,7 @@ class MpdProtocol(WebSocketServerProtocol):
     def onOpen(self):
         print("WebSocket connection open.")
         self.run = True
+        self.client.connect("localhost", 6600)
         self.doPing()
 
     def doPing(self):
@@ -29,6 +34,8 @@ class MpdProtocol(WebSocketServerProtocol):
     def onClose(self, wasClean, code, reason):
         print("WebSocket connection closed: {0}".format(reason))
         self.run = False
+        self.client.close()
+        self.client.disconnect()
 
 
 if __name__ == '__main__':

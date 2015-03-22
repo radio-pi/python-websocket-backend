@@ -1,0 +1,2 @@
+autobahn[twisted,accelerate]
+python-mpd2
