@@ -1,5 +1,29 @@
+import json
+
 from mpd import MPDClient
+
+from twisted.internet import reactor
+from twisted.web.server import Site
+from twisted.web.resource import Resource
+
 from autobahn.twisted.websocket import WebSocketServerProtocol, WebSocketServerFactory
+
+
+class PlayResource(Resource):
+    def render_POST(self, request):
+        content = request.content.getvalue()
+        data = json.loads(content)
+        if 'url' in data:
+            print data['url']
+        return ''
+
+
+class StopResource(Resource):
+    def render_POST(self, request):
+        content = request.content.getvalue()
+        data = json.loads(content)
+        print data.url
+        return ''
 
 
 class MpdProtocol(WebSocketServerProtocol):
@@ -45,7 +69,6 @@ if __name__ == '__main__':
     import sys
 
     from twisted.python import log
-    from twisted.internet import reactor
 
     log.startLogging(sys.stdout)
 
@@ -53,5 +76,11 @@ if __name__ == '__main__':
     factory.protocol = MpdProtocol
     # factory.setProtocolOptions(maxConnections=2)
 
+    root = Resource()
+    root.putChild("play", PlayResource())
+    root.putChild("stop", StopResource())
+    site = Site(root)
+
+    reactor.listenTCP(3000, site)
     reactor.listenTCP(9000, factory)
     reactor.run()
