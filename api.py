@@ -8,21 +8,36 @@ from twisted.web.resource import Resource
 
 from autobahn.twisted.websocket import WebSocketServerProtocol, WebSocketServerFactory
 
+HOST = 'localhost'
+PORT = 6600
 
 class PlayResource(Resource):
     def render_POST(self, request):
         content = request.content.getvalue()
         data = json.loads(content)
         if 'url' in data:
-            print data['url']
+            client = MPDClient()
+            client.connect(HOST, PORT)
+
+            client.clear()
+            client.add(data['url'])
+            client.play()
+
+            client.close()
+            client.disconnect()
         return ''
 
 
 class StopResource(Resource):
     def render_POST(self, request):
-        content = request.content.getvalue()
-        data = json.loads(content)
-        print data.url
+        client = MPDClient()
+        client.connect(HOST, PORT)
+
+        client.clear()
+        client.stop()
+
+        client.close()
+        client.disconnect()
         return ''
 
 
@@ -37,14 +52,14 @@ class MpdProtocol(WebSocketServerProtocol):
     def onOpen(self):
         print("WebSocket connection open.")
         self.run = True
-        self.client.connect("localhost", 6600)
-        #self.doPing()
+        #self.client.connect("localhost", 6600)
+        self.doLoop()
 
-    def doPing(self):
+    def doLoop(self):
         if self.run:
             print("ping")
             self.sendMessage("Some test")
-            reactor.callLater(5, self.doPing)
+            reactor.callLater(1, self.doLoop)
 
     def onMessage(self, payload, isBinary):
         if not isBinary:
