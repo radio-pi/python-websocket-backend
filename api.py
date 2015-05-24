@@ -77,25 +77,3 @@ class MpdProtocol(WebSocketServerProtocol):
         self.run = False
         self.client.close()
         self.client.disconnect()
-
-
-if __name__ == '__main__':
-
-    import sys
-
-    from twisted.python import log
-
-    log.startLogging(sys.stdout)
-
-    factory = WebSocketServerFactory("ws://localhost:9000", debug=False)
-    factory.protocol = MpdProtocol
-    # factory.setProtocolOptions(maxConnections=2)
-
-    root = Resource()
-    root.putChild("play", PlayResource())
-    root.putChild("stop", StopResource())
-    site = Site(root)
-
-    reactor.listenTCP(3000, site)
-    reactor.listenTCP(9000, factory)
-    reactor.run()
