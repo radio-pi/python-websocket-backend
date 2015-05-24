@@ -8,6 +8,12 @@ Install dependencies with:
 ``` 
 pip install -r requirements.txt
 ``` 
+# Production
+https://github.com/eagafonov/python-twisted-startup-script/blob/master/python-twisted-startup-script
+
+TODO: create init scripts
+
+# Development
 
 Run with:
 

@@ -24,4 +24,3 @@ internet.TCPServer(9000, factory).setServiceParent(rpi_service)
 application = service.Application("Radio Pi")
 # attach the service to its parent application
 rpi_service.setServiceParent(application)
-
