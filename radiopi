@@ -1,7 +1,7 @@
 #!/bin/sh
 ### BEGIN INIT INFO
 # Provides:          radiopi
-# Required-Start:    $local_fs $remote_fs $network $syslog $mpd
+# Required-Start:    $local_fs $remote_fs $network $syslog mpd
 # Required-Stop:
 # Should-Start:
 # Default-Start:     2 3 4 5
@@ -36,6 +36,7 @@ do_start () {
   else
     cd $APP_ROOT
     $APP_ROOT/env/bin/twistd -y service.tac --pidfile $PID_FILE
+    echo "RadioPi has started"
   fi
 }
 
