@@ -34,6 +34,7 @@ do_start () {
     echo "RadioPi is currently running!"
     exit 1
   else
+    cd $APP_ROOT
     $APP_ROOT/env/bin/twistd -y service.tac --pidfile $PID_FILE
   fi
 }
