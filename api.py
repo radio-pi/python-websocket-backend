@@ -42,12 +42,28 @@ class StopResource(Resource):
 
 
 class VolumeResource(Resource):
+    def render_POST(self, request):
+        vol = -1
+        content = request.content.getvalue()
+        data = json.loads(content)
+
+        if 'volume' in data:
+            client = MPDClient()
+            client.connect(HOST, PORT)
+
+            client.setvol(data['volume'])
+            statusDICT = client.status()
+	    vol = statusDICT.get('volume') 
+
+            client.close()
+            client.disconnect()
+        return '{"volume":' + str(vol)  + ' }'
+
     def render_GET(self, request):
         client = MPDClient()
         client.connect(HOST, PORT)
 
         statusDICT = client.status()
-	
 	vol = statusDICT.get('volume') 
 
         client.close()
