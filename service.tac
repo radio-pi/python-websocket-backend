@@ -16,6 +16,7 @@ factory.protocol = api.MpdProtocol
 root = Resource()
 root.putChild("play", api.PlayResource())
 root.putChild("stop", api.StopResource())
+root.putChild("volume", api.VolumeResource())
 site = Site(root)
 
 internet.TCPServer(3000, site).setServiceParent(rpi_service)

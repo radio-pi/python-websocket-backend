@@ -41,6 +41,19 @@ class StopResource(Resource):
         return ''
 
 
+class VolumeResource(Resource):
+    def render_GET(self, request):
+        client = MPDClient()
+        client.connect(HOST, PORT)
+
+        statusDICT = client.status()
+	
+	vol = statusDICT.get('volume') 
+
+        client.close()
+        client.disconnect()
+        return '{"volume":' + str(vol)  + ' }'
+
 class MpdProtocol(WebSocketServerProtocol):
 
     def __init__(self):
