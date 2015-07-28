@@ -1,4 +1,5 @@
 #!/bin/sh
+
 ### BEGIN INIT INFO
 # Provides:          radiopi
 # Required-Start:    $local_fs $remote_fs $network $syslog mpd
@@ -19,21 +20,22 @@ APP_ROOT="/usr/local/src/radiopi"
 PID_FILE="$APP_ROOT/radiopi.pid"
 
 check_pid(){
-  if [ -f $PID_FILE ]; then
+  STATUS=0
+  PID=0
+
+  if test -f $PID_FILE && test ! -z `cat $PID_FILE`; then
     PID=`cat $PID_FILE`
     STATUS=`ps aux | grep $PID_FILE | grep -v grep | wc -l`
-  else
-    STATUS=0
-    PID=0
   fi
 }
 
 do_start () {
   check_pid
-  if [ "$PID" -ne 0 -a "$STATUS" -ne 0 ]; then
+  if [ "$PID" -ne 0 ] && [ "$STATUS" -ne 0 ]; then
     echo "RadioPi is currently running!"
     exit 1
   else
+    rm -f $PID_FILE # remove old pid file
     cd $APP_ROOT
     $APP_ROOT/env/bin/twistd -y service.tac --pidfile $PID_FILE
     echo "RadioPi has started"
@@ -42,7 +44,7 @@ do_start () {
 
 do_stop() {
   check_pid
-  if [ "$PID" -ne 0 -a "$STATUS" -ne 0 ]; then
+  if [ "$PID" -ne 0 ] && [ "$STATUS" -ne 0 ]; then
     ## Program is running, stop it.
     kill -9 `cat $PID_FILE`
     rm "$PID_FILE" >> /dev/null
@@ -56,7 +58,7 @@ do_stop() {
 
 do_status () {
   check_pid
-  if [ "$PID" -ne 0 -a "$STATUS" -ne 0 ]; then
+  if [ "$PID" -ne 0 ] && [ "$STATUS" -ne 0 ]; then
     echo "RadioPi with PID $PID is running."
   else
     echo "RadioPi is not running."
