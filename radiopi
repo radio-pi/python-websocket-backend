@@ -23,7 +23,7 @@ check_pid(){
   STATUS=0
   PID=0
 
-  if test -f $PID_FILE && test ! -z `cat $PID_FILE`; then
+  if [ -s $PID_FILE ]; then
     PID=`cat $PID_FILE`
     STATUS=`ps aux | grep $PID_FILE | grep -v grep | wc -l`
   fi
