@@ -32,3 +32,11 @@ Serve the index.html
 ```
 python -m SimpleHTTPServer 8080
 ```
+
+Testing with `curl`
+
+```
+# curl
+curl -H "Content-Type: application/json" -d '{"url":"http://fritz.de/livemp3"}' http://localhost:3000/play
+curl -H "Content-Type: application/json" -d '{"volume":"100"}' http://localhost:3000/volume
+```
