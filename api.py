@@ -51,7 +51,13 @@ class VolumeResource(Resource):
             client = MPDClient()
             client.connect(HOST, PORT)
 
-            client.setvol(data['volume'])
+            # transform volume
+            # 000 -> 60
+            # 100 -> 90
+            vol = data['volume']
+            vol = (vol * 0.3) + 60
+
+            client.setvol(vol)
             statusDICT = client.status()
 	    vol = statusDICT.get('volume') 
 
@@ -64,7 +70,12 @@ class VolumeResource(Resource):
         client.connect(HOST, PORT)
 
         statusDICT = client.status()
-	vol = statusDICT.get('volume') 
+        vol = statusDICT.get('volume')
+        
+        # transform volume
+        # 60 -> 0
+        # 90 -> 100
+        vol = (vol - 60) / 0.3
 
         client.close()
         client.disconnect()
