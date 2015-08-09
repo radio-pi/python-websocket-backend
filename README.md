@@ -9,7 +9,7 @@ code which expose the mpd as simple REST API.
 Please check out these two blog posts:
 
   * [General setup](http://radio-pi.github.io/2015/07/06/setup-a-radio-pi/  )
-  * [Software setup] ()
+  * [Software setup]( https://github.com/radio-pi/radio-pi.github.io/blob/master/_posts/setup-a-radio-pi-software )
 
 
 # Development
