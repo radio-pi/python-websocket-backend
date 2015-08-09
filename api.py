@@ -55,15 +55,15 @@ class VolumeResource(Resource):
             # 000 -> 60
             # 100 -> 90
             vol = data['volume']
-            vol = (vol * 0.3) + 60
+            vol = int((float(vol) * 0.3) + 60)
 
             client.setvol(vol)
             statusDICT = client.status()
-	    vol = statusDICT.get('volume') 
-
             client.close()
             client.disconnect()
-        return '{"volume":' + str(vol)  + ' }'
+
+
+        return '{}'
 
     def render_GET(self, request):
         client = MPDClient()
@@ -75,7 +75,7 @@ class VolumeResource(Resource):
         # transform volume
         # 60 -> 0
         # 90 -> 100
-        vol = (vol - 60) / 0.3
+        vol = int((int(vol) - 60) / 0.3)
 
         client.close()
         client.disconnect()
