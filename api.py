@@ -84,7 +84,8 @@ class VolumeResource(Resource):
 class MpdProtocol(WebSocketServerProtocol):
 
     def __init__(self):
-        self.client = MPDClient()
+        self.mpd_client = MPDClient()
+        self.old_volume = -1
 
     def onConnect(self, request):
         print("Client connecting: {0}".format(request.peer))
@@ -92,14 +93,19 @@ class MpdProtocol(WebSocketServerProtocol):
     def onOpen(self):
         print("WebSocket connection open.")
         self.run = True
-        #self.client.connect("localhost", 6600)
+        self.mpd_client.connect(HOST, PORT)
         self.doLoop()
 
     def doLoop(self):
         if self.run:
-            print("ping")
-            self.sendMessage("Some test")
-            reactor.callLater(1, self.doLoop)
+            statusDICT = self.mpd_client.status()
+            vol = statusDICT.get('volume')
+            if vol != self.old_volume:
+                self.old_volume = vol
+                print("new volume " + vol)
+                self.sendMessage(vol)
+            #self.sendMessage("Some test")
+            reactor.callLater(0.5, self.doLoop)
 
     def onMessage(self, payload, isBinary):
         if not isBinary:
