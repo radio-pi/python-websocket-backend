@@ -111,9 +111,6 @@ class MpdProtocol(WebSocketServerProtocol):
         if not isBinary:
             message = payload.decode('utf8') 
             print("Text message received: {0}".format(message))
-            if message == "mpd_version":
-                payload = self.client.mpd_version
-                print(self.client.mpd_version)
 
         # echo back message verbatim
         self.sendMessage(payload)
@@ -121,5 +118,5 @@ class MpdProtocol(WebSocketServerProtocol):
     def onClose(self, wasClean, code, reason):
         print("WebSocket connection closed: {0}".format(reason))
         self.run = False
-        self.client.close()
-        self.client.disconnect()
+        self.mpd_client.close()
+        self.mpd_client.disconnect()
