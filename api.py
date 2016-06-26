@@ -102,9 +102,13 @@ class MpdProtocol(WebSocketServerProtocol):
             vol = statusDICT.get('volume')
             if vol != self.old_volume:
                 self.old_volume = vol
-                print("new volume " + vol)
-                self.sendMessage(vol)
-            #self.sendMessage("Some test")
+                
+                # transform volume
+                # 60 -> 0
+                # 90 -> 100
+                ret_vol = int((int(vol) - 60) / 0.3)
+
+                self.sendMessage(str(ret_vol))
             reactor.callLater(0.5, self.doLoop)
 
     def onMessage(self, payload, isBinary):
