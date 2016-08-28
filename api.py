@@ -1,43 +1,35 @@
 import json
 
-from mpd import MPDClient
-
 from twisted.internet import reactor
 from twisted.web.server import Site
 from twisted.web.resource import Resource
 
 from autobahn.twisted.websocket import WebSocketServerProtocol, WebSocketServerFactory
 
-HOST = 'localhost'
-PORT = 6600
+
+# import the different backends
+from backend.IPlayerInterface import IPlayer
+import backend.MusicPlayerDaemon 
+
+
+# load one backend and check the player
+PLAYER = backend.MusicPlayerDaemon.Player()
+if not isinstance(PLAYER, IPlayer): raise Exception('Bad interface')
+if not IPlayer.version() == '1.0': raise Exception('Bad revision')
+
 
 class PlayResource(Resource):
     def render_POST(self, request):
         content = request.content.getvalue()
         data = json.loads(content)
         if 'url' in data:
-            client = MPDClient()
-            client.connect(HOST, PORT)
-
-            client.clear()
-            client.add(data['url'])
-            client.play()
-
-            client.close()
-            client.disconnect()
+            PLAYER.play(data['url'])
         return ''
 
 
 class StopResource(Resource):
     def render_POST(self, request):
-        client = MPDClient()
-        client.connect(HOST, PORT)
-
-        client.clear()
-        client.stop()
-
-        client.close()
-        client.disconnect()
+        PLAYER.stop()
         return ''
 
 
@@ -48,43 +40,30 @@ class VolumeResource(Resource):
         data = json.loads(content)
 
         if 'volume' in data:
-            client = MPDClient()
-            client.connect(HOST, PORT)
-
             # transform volume
             # 000 -> 60
             # 100 -> 90
             vol = data['volume']
             vol = int((float(vol) * 0.3) + 60)
 
-            client.setvol(vol)
-            statusDICT = client.status()
-            client.close()
-            client.disconnect()
-
+            PLAYER.set_volume(vol)
 
         return '{}'
 
     def render_GET(self, request):
-        client = MPDClient()
-        client.connect(HOST, PORT)
+        vol = PLAYER.get_volume()
 
-        statusDICT = client.status()
-        vol = statusDICT.get('volume')
-        
         # transform volume
         # 60 -> 0
         # 90 -> 100
         vol = int((int(vol) - 60) / 0.3)
 
-        client.close()
-        client.disconnect()
         return '{"volume":' + str(vol)  + ' }'
 
 class MpdProtocol(WebSocketServerProtocol):
 
     def __init__(self):
-        self.mpd_client = MPDClient()
+        #self.mpd_client = MPDClient()
         self.old_volume = -1
 
     def onConnect(self, request):
@@ -93,13 +72,13 @@ class MpdProtocol(WebSocketServerProtocol):
     def onOpen(self):
         print("WebSocket connection open.")
         self.run = True
-        self.mpd_client.connect(HOST, PORT)
+        #self.mpd_client.connect(HOST, PORT)
         self.doLoop()
 
     def doLoop(self):
         if self.run:
-            statusDICT = self.mpd_client.status()
-            vol = statusDICT.get('volume')
+            vol = PLAYER.get_volume()
+
             if vol != self.old_volume:
                 self.old_volume = vol
                 
@@ -122,5 +101,5 @@ class MpdProtocol(WebSocketServerProtocol):
     def onClose(self, wasClean, code, reason):
         print("WebSocket connection closed: {0}".format(reason))
         self.run = False
-        self.mpd_client.close()
-        self.mpd_client.disconnect()
+        #self.mpd_client.close()
+        #self.mpd_client.disconnect()
