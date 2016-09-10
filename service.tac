@@ -5,11 +5,14 @@ from twisted.application import service, internet
 from twisted.web.server import Site
 from twisted.web.resource import Resource
 from autobahn.twisted.websocket import WebSocketServerFactory
+
+import sys
+sys.path.append('.')
 import api
 
 rpi_service = service.MultiService()
 
-factory = WebSocketServerFactory("ws://localhost:9000", debug=False)
+factory = WebSocketServerFactory("ws://localhost:9000")
 factory.protocol = api.MpdProtocol
 # factory.setProtocolOptions(maxConnections=2)
 
