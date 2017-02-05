@@ -63,7 +63,7 @@ class VolumeResource(Resource):
 class MpdProtocol(WebSocketServerProtocol):
 
     def __init__(self):
-        #self.mpd_client = MPDClient()
+        super().__init__
         self.old_volume = -1
 
     def onConnect(self, request):
@@ -72,7 +72,6 @@ class MpdProtocol(WebSocketServerProtocol):
     def onOpen(self):
         print("WebSocket connection open.")
         self.run = True
-        #self.mpd_client.connect(HOST, PORT)
         self.doLoop()
 
     def doLoop(self):
@@ -101,5 +100,3 @@ class MpdProtocol(WebSocketServerProtocol):
     def onClose(self, wasClean, code, reason):
         print("WebSocket connection closed: {0}".format(reason))
         self.run = False
-        #self.mpd_client.close()
-        #self.mpd_client.disconnect()
