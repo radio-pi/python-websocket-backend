@@ -63,7 +63,7 @@ class VolumeResource(Resource):
 class MpdProtocol(WebSocketServerProtocol):
 
     def __init__(self):
-        super().__init__
+        super(MpdProtocol, self).__init__()
         self.old_volume = -1
 
     def onConnect(self, request):
