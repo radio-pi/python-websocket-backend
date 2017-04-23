@@ -4,16 +4,20 @@ import vlc
 class Player(IPlayer):
 
     def __init__(self):
-        pass
+        self.instance = vlc.Instance("--no-xlib")
+        self.player = self.instance.media_player_new()
 
     def play(self, url):
-        pass
+        media = self.instance.media_new(url)
+        self.player.set_media(media)
+        self.player.play()
 
     def stop(self):
-        pass
+        self.player.stop()
 
     def get_volume(self):
-        pass
+        vol = self.player.audio_get_volume()
+        return vol
 
     def set_volume(self, volume):
-        pass
+        self.player.audio_set_volume(volume)
