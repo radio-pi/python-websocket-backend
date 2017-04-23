@@ -9,11 +9,11 @@ from autobahn.twisted.websocket import WebSocketServerProtocol, WebSocketServerF
 
 # import the different backends
 from backend.IPlayerInterface import IPlayer
-import backend.MusicPlayerDaemon 
+import backend.VLCPlayer 
 
 
 # load one backend and check the player
-PLAYER = backend.MusicPlayerDaemon.Player()
+PLAYER = backend.VLCPlayer.Player()
 if not isinstance(PLAYER, IPlayer): raise Exception('Bad interface')
 if not IPlayer.version() == '1.0': raise Exception('Bad revision')
 
