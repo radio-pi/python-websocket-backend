@@ -24,13 +24,13 @@ class PlayResource(Resource):
         data = json.loads(content)
         if 'url' in data:
             PLAYER.play(data['url'])
-        return ''
+        return b''
 
 
 class StopResource(Resource):
     def render_POST(self, request):
         PLAYER.stop()
-        return ''
+        return b''
 
 
 class VolumeResource(Resource):
@@ -48,7 +48,7 @@ class VolumeResource(Resource):
 
             PLAYER.set_volume(vol)
 
-        return '{}'
+        return b'{}'
 
     def render_GET(self, request):
         vol = PLAYER.get_volume()
@@ -58,7 +58,7 @@ class VolumeResource(Resource):
         # 90 -> 100
         vol = int((int(vol) - 60) / 0.3)
 
-        return '{"volume":' + str(vol)  + ' }'
+        return b'{"volume":' + str(vol)  + ' }'
 
 class MpdProtocol(WebSocketServerProtocol):
 
