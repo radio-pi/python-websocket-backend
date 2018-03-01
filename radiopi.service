@@ -1,0 +1,13 @@
+[Unit]
+Description=Radio Pi backend service
+After=syslog.target
+
+[Service]
+Type=simple
+WorkingDirectory=/usr/local/src/radiopi
+ExecStart=/usr/local/src/radiopi/env/bin/twistd --nodaemon --pidfile= -y service.tac
+StandardOutput=syslog
+StandardError=syslog
+
+[Install]
+WantedBy=multi-user.target
