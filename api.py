@@ -20,7 +20,7 @@ if not IPlayer.version() == '1.0': raise Exception('Bad revision')
 
 class PlayResource(Resource):
     def render_POST(self, request):
-        content = request.content.getvalue()
+        content = request.content.getvalue().decode('utf8')
         data = json.loads(content)
         if 'url' in data:
             PLAYER.play(data['url'])
@@ -36,7 +36,7 @@ class StopResource(Resource):
 class VolumeResource(Resource):
     def render_POST(self, request):
         vol = -1
-        content = request.content.getvalue()
+        content = request.content.getvalue().decode('utf8')
         data = json.loads(content)
 
         if 'volume' in data:
@@ -86,7 +86,7 @@ class MpdProtocol(WebSocketServerProtocol):
                 # 90 -> 100
                 ret_vol = int((int(vol) - 60) / 0.3)
 
-                self.sendMessage(str(ret_vol))
+                self.sendMessage("#{0}".format(ret_vol).encode('utf8'))
             reactor.callLater(0.5, self.doLoop)
 
     def onMessage(self, payload, isBinary):
