@@ -1,4 +1,4 @@
-from IPlayerInterface import IPlayer
+from .IPlayerInterface import IPlayer
 import vlc
 
 class Player(IPlayer):
