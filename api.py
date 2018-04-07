@@ -86,7 +86,7 @@ class MpdProtocol(WebSocketServerProtocol):
                 # 90 -> 100
                 ret_vol = int((int(vol) - 60) / 0.3)
 
-                self.sendMessage("#{0}".format(ret_vol).encode('utf8'))
+                self.sendMessage("{0}".format(ret_vol).encode('utf8'))
             reactor.callLater(0.5, self.doLoop)
 
     def onMessage(self, payload, isBinary):
