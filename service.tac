@@ -8,12 +8,13 @@ from autobahn.twisted.websocket import WebSocketServerFactory
 
 import sys
 sys.path.append('.')
-import api
+
+import api, websocket
 
 rpi_service = service.MultiService()
 
 factory = WebSocketServerFactory("ws://localhost:9000")
-factory.protocol = api.MpdProtocol
+factory.protocol = websocket.MpdProtocol
 # factory.setProtocolOptions(maxConnections=2)
 
 root = Resource()
