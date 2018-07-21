@@ -6,6 +6,7 @@ class Player(IPlayer):
     def __init__(self):
         self.instance = vlc.Instance("--no-xlib")
         self.player = self.instance.media_player_new()
+        self.sleep_timer = 0
 
     def play(self, url):
         media = self.instance.media_new(url)
@@ -21,3 +22,9 @@ class Player(IPlayer):
 
     def set_volume(self, volume):
         self.player.audio_set_volume(volume)
+
+    def set_sleep_timer(self, timeInMinutes):
+        self.sleep_timer = timeInMinutes
+
+    def get_sleep_timer(self):
+        return self.sleep_timer

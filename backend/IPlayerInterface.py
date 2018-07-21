@@ -17,3 +17,9 @@ class IPlayer:
 
     @abstractmethod
     def set_volume(self, volume): raise NotImplementedError
+
+    @abstractmethod
+    def get_sleep_timer(self): raise NotImplementedError
+
+    @abstractmethod
+    def set_sleep_timer(self, timeInMinutes): raise NotImplementedError

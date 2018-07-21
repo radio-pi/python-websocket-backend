@@ -17,6 +17,15 @@ class StopResource(Resource):
         player.PLAYER.stop()
         return b''
 
+class SleepTimerResource(Resource):
+    def render_GET(self, request):
+        timeinminutes = player.PLAYER.get_sleep_timer()
+        return b''
+
+    def render_POST(self, request):
+        timeinminutes = 1
+        player.PLAYER.set_sleep_timer(timeinminutes)
+        return b''
 
 class StreamUrlListResource(Resource):
     def render_GET(self, request):
