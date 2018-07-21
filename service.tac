@@ -21,6 +21,7 @@ root = Resource()
 root.putChild(b"play", api.PlayResource())
 root.putChild(b"stop", api.StopResource())
 root.putChild(b"volume", api.VolumeResource())
+root.putChild(b"streamurls", api.StreamUrlListResource())
 site = Site(root)
 
 internet.TCPServer(3000, site).setServiceParent(rpi_service)

@@ -18,6 +18,19 @@ class StopResource(Resource):
         return b''
 
 
+class StreamUrlListResource(Resource):
+    def render_GET(self, request):
+        streamlist = [{'name': 'Hardbase',         'url': 'http://listen.hardbase.fm/tunein-mp3-pls',   'orderid': 1},
+                      {'name': 'Technobase',       'url': 'http://listen.technobase.fm/tunein-mp3-asx', 'orderid': 2},
+                      {'name': 'Radio 24',         'url': 'http://icecast.radio24.ch/radio24',          'orderid': 0},
+                      {'name': 'Radio SRF 1',      'url': 'http://stream.srg-ssr.ch/m/drs1/mp3_128',    'orderid': 3},
+                      {'name': 'Radio SRF 2',      'url': 'http://stream.srg-ssr.ch/m/drs2/mp3_128',    'orderid': 4},
+                      {'name': 'Radio SRF 3',      'url': 'http://stream.srg-ssr.ch/m/drs3/mp3_128',    'orderid': 5},
+                      {'name': 'Radio Swiss Jazz', 'url': 'http://stream.srg-ssr.ch/m/rsj/mp3_128',     'orderid': 6},
+                      {'name': 'Radio Swiss Pop',  'url': 'http://stream.srg-ssr.ch/m/rsp/mp3_128',     'orderid': 7}]
+
+        return json.dumps(streamlist).encode('utf8')
+
 class VolumeResource(Resource):
     def render_POST(self, request):
         vol = -1
