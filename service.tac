@@ -3,6 +3,7 @@
 
 from twisted.application import service, internet
 from twisted.web.server import Site
+from twisted.web.static import File
 from twisted.web.resource import Resource
 from autobahn.twisted.websocket import WebSocketServerFactory
 
@@ -22,6 +23,7 @@ root.putChild(b"play", api.PlayResource())
 root.putChild(b"stop", api.StopResource())
 root.putChild(b"volume", api.VolumeResource())
 root.putChild(b"streamurls", api.StreamUrlListResource())
+root.putChild(b"index", File('index.html'))
 site = Site(root)
 
 internet.TCPServer(3000, site).setServiceParent(rpi_service)
