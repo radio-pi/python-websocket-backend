@@ -9,5 +9,8 @@ ExecStart=/usr/local/src/radiopi/env/bin/twistd --nodaemon --pidfile= -y service
 StandardOutput=syslog
 StandardError=syslog
 
+Restart=always
+RestartSec=5
+
 [Install]
 WantedBy=multi-user.target
