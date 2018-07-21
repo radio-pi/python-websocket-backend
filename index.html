@@ -1,11 +1,18 @@
 <!DOCTYPE html>
 <html>
    <head>
+      <meta charset="utf-8"/>
+      <script
+           src="https://code.jquery.com/jquery-3.3.1.min.js"
+           integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+           crossorigin="anonymous"></script>
       <script type="text/javascript">
          var socket = null;
          var isopen = false;
 
          window.onload = function() {
+            // load station list
+            getRadioStationList();
 
             socket = new WebSocket("ws://127.0.0.1:9000");
 
@@ -17,6 +24,7 @@
             socket.onmessage = function(e) {
                if (typeof e.data == "string") {
                   console.log("Text message received: " + e.data);
+                  $('#volumeSlider')[0].value = e.data;
                } else {
                   console.log("Message received: " + e.data);
                }
@@ -29,18 +37,56 @@
             }
          };
 
-         function sendText() {
-            if (isopen) {
-               socket.send("mpd_version");
-               console.log("mpd_version");               
-            } else {
-               console.log("Connection not opened.")
-            }
-         };
+         function updateVolume(){
+            console.log();
+            volume = $('#volumeSlider')[0].value
+            postData = {"volume": volume};
+            $.ajax({
+                 type: "POST",
+                 url: "/volume",
+                 data: JSON.stringify(postData),
+                 success: function() { },
+                 dataType: "json",
+                 contentType : "application/json"
+             });
+         }
+
+         function getRadioStationList() {
+            $.get("/streamurls", function(data, status){
+                  json = JSON.parse(data);
+                  for(index in json){
+                     item = json[index];
+
+                     btn = "<button onclick='play(\"" + item.url + "\");'>play</button>"
+                     element = "<li>" + item.name + btn + "</li>";
+                     document.getElementById("radiolist").innerHTML += element;
+                  }
+            });
+         }
+
+         function play(url){
+            console.log('play: ' + url);
+            
+            postData = {"url": url};
+            $.ajax({
+                 type: "POST",
+                 url: "/play",
+                 data: JSON.stringify(postData),
+                 success: function() {  },
+                 dataType: "json",
+                 contentType : "application/json"
+             });
+         }
       </script>
    </head>
    <body>
-      <p>Open your browser's JavaScript console to see what's happening (hit F12).</p>
-      <button onclick='sendText();'>Send Text Message</button>
+      <div>
+         <ul id="radiolist"></ul>
+      </div>
+
+      <div class="slidecontainer">
+         Volume:
+        <input type="range" min="1" max="100" value="50" id="volumeSlider" onchange="updateVolume()">
+      </div>
    </body>
 </html>
