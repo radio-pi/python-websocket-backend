@@ -2,7 +2,7 @@ Radio PI backend
 ==================
 
 
-It's a simple REST & websocket server to expose a simple API
+A simple REST & websocket server to expose a simple API
 to controll a music player. Used by a [Webclient]( https://github.com/radio-pi/python-websocket-backend/blob/master/index.html) 
 and an [Android app]( https://github.com/radio-pi/RadioPi ).
 
