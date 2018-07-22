@@ -1,5 +1,5 @@
 import json
-import player
+from .player import PLAYER
 
 from twisted.web.resource import Resource
 
@@ -8,18 +8,18 @@ class PlayResource(Resource):
         content = request.content.getvalue().decode('utf8')
         data = json.loads(content)
         if 'url' in data:
-            player.PLAYER.play(data['url'])
+            PLAYER.play(data['url'])
         return b''
 
 
 class StopResource(Resource):
     def render_POST(self, request):
-        player.PLAYER.stop()
+        PLAYER.stop()
         return b''
 
 class SleepTimerResource(Resource):
     def render_GET(self, request):
-        timeinminutes = player.PLAYER.get_sleep_timer()
+        timeinminutes = PLAYER.get_sleep_timer()
         return ('{"sleeptimer":' + str(timeinminutes)  + ' }').encode('utf8')
 
     def render_POST(self, request):
@@ -28,11 +28,11 @@ class SleepTimerResource(Resource):
 
         if 'time' in data:
             timeinminutes = data['time']
-            player.PLAYER.set_sleep_timer(timeinminutes)
+            PLAYER.set_sleep_timer(timeinminutes)
         return b''
 
     def cancel(self):
-        player.PLAYER.set_sleep_timer(0)
+        PLAYER.set_sleep_timer(0)
 
 
 class StreamUrlListResource(Resource):
@@ -61,12 +61,12 @@ class VolumeResource(Resource):
             vol = data['volume']
             vol = int((float(vol) * 0.3) + 60)
 
-            player.PLAYER.set_volume(vol)
+            PLAYER.set_volume(vol)
 
         return b'{}'
 
     def render_GET(self, request):
-        vol = player.PLAYER.get_volume()
+        vol = PLAYER.get_volume()
 
         # transform volume
         # 60 -> 0
