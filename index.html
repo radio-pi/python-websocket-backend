@@ -77,6 +77,20 @@
                  contentType : "application/json"
              });
          }
+
+
+         function pause(){
+            console.log('pause: ');
+            
+            $.ajax({
+                 type: "POST",
+                 url: "/stop",
+                 data: '',
+                 success: function() {  },
+                 dataType: "json",
+                 contentType : "application/json"
+             });
+         }
       </script>
    </head>
    <body>
@@ -84,6 +98,7 @@
          <ul id="radiolist"></ul>
       </div>
 
+      <button onclick='pause();'>pause</button>
       <div class="slidecontainer">
          Volume:
         <input type="range" min="1" max="100" value="50" id="volumeSlider" onchange="updateVolume()">
