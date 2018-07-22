@@ -11,7 +11,7 @@ from autobahn.twisted.websocket import WebSocketServerFactory
 import sys
 sys.path.append('.')
 
-from  radiopi import api, websocket
+from radiopi import api, websocket
 
 rpi_service = service.MultiService()
 
