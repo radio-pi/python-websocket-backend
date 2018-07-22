@@ -20,12 +20,20 @@ class StopResource(Resource):
 class SleepTimerResource(Resource):
     def render_GET(self, request):
         timeinminutes = player.PLAYER.get_sleep_timer()
-        return b''
+        return ('{"sleeptimer":' + str(timeinminutes)  + ' }').encode('utf8')
 
     def render_POST(self, request):
-        timeinminutes = 1
-        player.PLAYER.set_sleep_timer(timeinminutes)
+        content = request.content.getvalue().decode('utf8')
+        data = json.loads(content)
+
+        if 'time' in data:
+            timeinminutes = data['time']
+            player.PLAYER.set_sleep_timer(timeinminutes)
         return b''
+
+    def cancel(self):
+        player.PLAYER.set_sleep_timer(0)
+
 
 class StreamUrlListResource(Resource):
     def render_GET(self, request):
@@ -65,4 +73,4 @@ class VolumeResource(Resource):
         # 90 -> 100
         vol = int((int(vol) - 60) / 0.3)
 
-        return b'{"volume":' + str(vol)  + ' }'
+        return ('{"volume":' + str(vol)  + ' }').encode('utf8')
