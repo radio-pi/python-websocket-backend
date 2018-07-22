@@ -3,8 +3,8 @@ Radio PI backend
 
 
 A simple REST & websocket server to expose a simple API
-to controll a music player. Used by a [Webclient]( https://github.com/radio-pi/python-websocket-backend/blob/master/index.html) 
-and an [Android app]( https://github.com/radio-pi/RadioPi ).
+to control a music player. Used by a [web client]( https://github.com/radio-pi/python-websocket-backend/blob/master/index.html) 
+and an [Android APP]( https://github.com/radio-pi/RadioPi ).
 
 # Production
 
@@ -16,7 +16,7 @@ Please check out these two blog posts:
 
 # Development
 
-It's recomended to use virtualenv!
+It's recommended to use virtualenv!
 
 Install dependencies with:
 
@@ -29,12 +29,32 @@ Run with:
 twistd -ny service.tac
 ```
 
-Checkout the simple http client at [http://localhost:3000/index](http://localhost:3000/index)!
+Checkout the simple web client at [http://localhost:3000/index](http://localhost:3000/index)!
 
-Testing with `curl`
+
+# Testing
+
+To run the test suite you need `tox`. 
+
+```
+tox -e py37
+```
+
+### curl
+
+Here are some useful `curl` commands to copy and paste:
+
+
+Play a stream or a file:
 
 ```
 # curl
 curl -H "Content-Type: application/json" -d '{"url":"http://fritz.de/livemp3"}' http://localhost:3000/play
+```
+
+
+Set volume to 100:
+
+```
 curl -H "Content-Type: application/json" -d '{"volume":"100"}' http://localhost:3000/volume
 ```
