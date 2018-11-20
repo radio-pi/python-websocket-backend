@@ -9,18 +9,18 @@ class PlayResource(Resource):
         data = json.loads(content)
         if 'url' in data:
             PLAYER.play(data['url'])
-        return b''
+        return b'{}'
 
 
 class StopResource(Resource):
     def render_POST(self, request):
         PLAYER.stop()
-        return b''
+        return b'{}'
 
 class SleepTimerResource(Resource):
     def render_GET(self, request):
         timeinminutes = PLAYER.get_sleep_timer()
-        return ('{"sleeptimer":' + str(timeinminutes)  + ' }').encode('utf8')
+        return ('{"sleeptimer":' + str(timeinminutes)  + '}').encode('utf8')
 
     def render_POST(self, request):
         content = request.content.getvalue().decode('utf8')
@@ -29,7 +29,7 @@ class SleepTimerResource(Resource):
         if 'time' in data:
             timeinminutes = data['time']
             PLAYER.set_sleep_timer(timeinminutes)
-        return b''
+        return b'{}'
 
     def cancel(self):
         PLAYER.set_sleep_timer(0)
@@ -73,4 +73,4 @@ class VolumeResource(Resource):
         # 90 -> 100
         vol = int((int(vol) - 60) / 0.3)
 
-        return ('{"volume":' + str(vol)  + ' }').encode('utf8')
+        return ('{"volume":' + str(vol)  + '}').encode('utf8')

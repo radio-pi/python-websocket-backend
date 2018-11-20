@@ -247,6 +247,26 @@ class DummyRequest(RequestHelperDummyRequest):
         #self.responseHeaders = Headers()
         #self.requestHeaders = Headers()
 
+    def writeContentBytes(self, data):
+        """Add some **data** to the faked body of this request.
+
+        This is useful when testing how servers handle content from POST
+        requests.
+
+        .. warn: Calling this method multiple times will overwrite any data
+            previously written.
+
+        :param str data: Some data to put in the "body" (i.e. the
+            :attr:`content`) of this request.
+        """
+        self.content = io.BytesIO()
+        try:
+            self.content.write(type(b'')(data))
+        finally:
+            self.content.flush()
+            self.content.seek(0)
+
+
     def writeContent(self, data):
         """Add some **data** to the faked body of this request.
 
@@ -259,6 +279,7 @@ class DummyRequest(RequestHelperDummyRequest):
         :param str data: Some data to put in the "body" (i.e. the
             :attr:`content`) of this request.
         """
+        self.content = io.StringIO()
         try:
             self.content.write(type(u'')(data))
         except UnicodeDecodeError:
