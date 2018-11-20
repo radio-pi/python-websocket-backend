@@ -23,8 +23,7 @@ if __name__ == '__main__':
         packages=find_packages(exclude=['*tests*']),
         install_requires=requirements,
         classifiers=[
-            # TODO: decide a licence
-            #'License :: OSI Approved :: MIT License',
+            'License :: OSI Approved :: BSD License',
             'Operating System :: POSIX',
             'Operating System :: POSIX :: Linux',
             'Programming Language :: Python',
@@ -34,6 +33,6 @@ if __name__ == '__main__':
             'Programming Language :: Python :: 3.7',
             'Programming Language :: Python :: Implementation',
             'Programming Language :: Python :: Implementation :: CPython',
-            'Programming Language :: Python :: Implementation :: PyPy'
+            'Programming Language :: Python :: 3 :: Only',
         ]
 )
