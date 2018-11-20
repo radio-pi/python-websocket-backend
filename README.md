@@ -1,8 +1,10 @@
 Radio PI backend
 ==================
 
-This project replace the old node.js backend. It's the glue 
-code which expose the mpd as simple REST API.
+
+A simple REST & websocket server to expose a simple API
+to control a music player. Used by a [web client]( https://github.com/radio-pi/python-websocket-backend/blob/master/index.html) 
+and an [Android APP]( https://github.com/radio-pi/RadioPi ).
 
 # Production
 
@@ -14,7 +16,7 @@ Please check out these two blog posts:
 
 # Development
 
-It's recomended to use virtualenv!
+It's recommended to use virtualenv!
 
 Install dependencies with:
 
@@ -27,16 +29,32 @@ Run with:
 twistd -ny service.tac
 ```
 
-Serve the index.html
+Checkout the simple web client at [http://localhost:3000/index](http://localhost:3000/index)!
+
+
+# Testing
+
+To run the test suite you need `tox`. 
 
 ```
-python -m SimpleHTTPServer 8080
+tox -e py37
 ```
 
-Testing with `curl`
+### curl
+
+Here are some useful `curl` commands to copy and paste:
+
+
+Play a stream or a file:
 
 ```
 # curl
 curl -H "Content-Type: application/json" -d '{"url":"http://fritz.de/livemp3"}' http://localhost:3000/play
+```
+
+
+Set volume to 100:
+
+```
 curl -H "Content-Type: application/json" -d '{"volume":"100"}' http://localhost:3000/volume
 ```

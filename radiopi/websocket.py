@@ -2,7 +2,7 @@ from twisted.internet import reactor
 
 from autobahn.twisted.websocket import WebSocketServerProtocol, WebSocketServerFactory
 
-import player
+from .player import PLAYER
 
 class MpdProtocol(WebSocketServerProtocol):
 
@@ -20,7 +20,7 @@ class MpdProtocol(WebSocketServerProtocol):
 
     def doLoop(self):
         if self.run:
-            vol = player.PLAYER.get_volume()
+            vol = PLAYER.get_volume()
 
             if vol != self.old_volume:
                 self.old_volume = vol
