@@ -9,6 +9,7 @@ class MpdProtocol(WebSocketServerProtocol):
     def __init__(self):
         super(MpdProtocol, self).__init__()
         self.old_volume = -1
+        self.old_title = ""
 
     def onConnect(self, request):
         print("Client connecting: {0}".format(request.peer))
@@ -16,12 +17,20 @@ class MpdProtocol(WebSocketServerProtocol):
     def onOpen(self):
         print("WebSocket connection open.")
         self.run = True
-        self.doLoop()
+        self.doVolumeLoop()
+        self.doTitleLoop()
 
-    def doLoop(self):
+    def doTitleLoop(self):
+        title = PLAYER.get_title()
+        if title != self.old_title:
+            self.old_title = title
+        print(title)
+        reactor.callLater(4, self.doTitleLoop)
+
+    def doVolumeLoop(self):
         if self.run:
             vol = PLAYER.get_volume()
-
+            
             if vol != self.old_volume:
                 self.old_volume = vol
                 
@@ -31,7 +40,7 @@ class MpdProtocol(WebSocketServerProtocol):
                 ret_vol = int((int(vol) - 60) / 0.3)
 
                 self.sendMessage("{0}".format(ret_vol).encode('utf8'))
-            reactor.callLater(0.5, self.doLoop)
+            reactor.callLater(0.5, self.doVolumeLoop)
 
     def onMessage(self, payload, isBinary):
         if not isBinary:

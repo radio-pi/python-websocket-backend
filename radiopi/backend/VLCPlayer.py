@@ -1,3 +1,7 @@
+import re
+import struct
+import urllib.request as urllib2
+
 import vlc
 
 from .IPlayerInterface import IPlayer
@@ -16,7 +20,28 @@ class Player(IPlayer):
         self.player.play()
 
     def stop(self):
+        self.media = None
         self.player.stop()
+
+    def get_title(self):
+        title = ''
+        url = self.player.get_media().get_mrl()
+
+        request = urllib2.Request(url, headers={'Icy-MetaData': 1})
+        response = urllib2.urlopen(request)
+        metaint = int(response.headers['icy-metaint'])
+
+        for _ in range(200):
+            response.read(metaint)
+            metadata_length = struct.unpack('B', response.read(1))[0] * 16
+            metadata = response.read(metadata_length).rstrip(b'\0')
+            metadata = metadata.decode('utf8')
+            m = re.search(r"StreamTitle='([^']*)';", metadata)
+            if m:
+                title = m.group(1)
+                if title:
+                    break
+        return title
 
     def get_volume(self):
         vol = self.player.audio_get_volume()

@@ -11,5 +11,5 @@ txaio==2.8.2
 ujson==1.35
 wsaccel==0.6.2
 zope.interface==4.4.3
-python-vlc==3.0.102
+python-vlc==3.0.6109
 python-mpd2==1.0.0

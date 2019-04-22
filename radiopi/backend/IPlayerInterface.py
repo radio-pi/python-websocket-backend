@@ -16,6 +16,9 @@ class IPlayer:
     def get_volume(self): raise NotImplementedError
 
     @abstractmethod
+    def get_title(self): raise NotImplementedError
+
+    @abstractmethod
     def set_volume(self, volume): raise NotImplementedError
 
     @abstractmethod
