@@ -24,7 +24,9 @@ class MpdProtocol(WebSocketServerProtocol):
         title = PLAYER.get_title()
         if title != self.old_title:
             self.old_title = title
-        print(title)
+
+            msg = '{"title": "' +  title + '"}'
+            self.sendMessage(msg.encode('utf8'))
         reactor.callLater(4, self.doTitleLoop)
 
     def doVolumeLoop(self):
@@ -39,7 +41,8 @@ class MpdProtocol(WebSocketServerProtocol):
                 # 90 -> 100
                 ret_vol = int((int(vol) - 60) / 0.3)
 
-                self.sendMessage("{0}".format(ret_vol).encode('utf8'))
+                msg = '{"volume": ' + str(ret_vol)  + '}'
+                self.sendMessage(msg.encode('utf8'))
             reactor.callLater(0.5, self.doVolumeLoop)
 
     def onMessage(self, payload, isBinary):

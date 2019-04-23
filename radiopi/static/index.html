@@ -24,7 +24,13 @@
             socket.onmessage = function(e) {
                if (typeof e.data == "string") {
                   console.log("Text message received: " + e.data);
-                  $('#volumeSlider')[0].value = e.data;
+		  data = JSON.parse(e.data)
+		  if ("volume" in data){
+                      $('#volumeSlider')[0].value = data.volume;
+		  }
+		  if ("title" in data){
+                      console.log("Title: " + data.title);
+		  }
                } else {
                   console.log("Message received: " + e.data);
                }
