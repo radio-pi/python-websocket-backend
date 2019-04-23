@@ -25,6 +25,9 @@ class Player(IPlayer):
 
     def get_title(self):
         title = ''
+        if not self.player.get_media():
+            return title
+
         url = self.player.get_media().get_mrl()
 
         request = urllib2.Request(url, headers={'Icy-MetaData': 1})
