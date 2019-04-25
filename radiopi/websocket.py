@@ -1,8 +1,9 @@
 from twisted.internet import reactor
 
-from autobahn.twisted.websocket import WebSocketServerProtocol, WebSocketServerFactory
+from autobahn.twisted.websocket import WebSocketServerProtocol
 
 from .player import PLAYER
+
 
 class MpdProtocol(WebSocketServerProtocol):
 
@@ -21,33 +22,34 @@ class MpdProtocol(WebSocketServerProtocol):
         self.doTitleLoop()
 
     def doTitleLoop(self):
-        title = PLAYER.get_title()
-        if title != self.old_title:
-            self.old_title = title
+        if self.run:
+            title = PLAYER.get_title()
+            if title != self.old_title:
+                self.old_title = title
 
-            msg = '{"title": "' +  title + '"}'
-            self.sendMessage(msg.encode('utf8'))
-        reactor.callLater(4, self.doTitleLoop)
+                msg = '{"title": "' + title + '"}'
+                self.sendMessage(msg.encode('utf8'))
+            reactor.callLater(4, self.doTitleLoop)
 
     def doVolumeLoop(self):
         if self.run:
             vol = PLAYER.get_volume()
-            
+
             if vol != self.old_volume:
                 self.old_volume = vol
-                
+
                 # transform volume
                 # 60 -> 0
                 # 90 -> 100
                 ret_vol = int((int(vol) - 60) / 0.3)
 
-                msg = '{"volume": ' + str(ret_vol)  + '}'
+                msg = '{"volume": ' + str(ret_vol) + '}'
                 self.sendMessage(msg.encode('utf8'))
             reactor.callLater(0.5, self.doVolumeLoop)
 
     def onMessage(self, payload, isBinary):
         if not isBinary:
-            message = payload.decode('utf8') 
+            message = payload.decode('utf8')
             print("Text message received: {0}".format(message))
 
         # echo back message verbatim
