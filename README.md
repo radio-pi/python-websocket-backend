@@ -3,7 +3,7 @@ Radio PI backend
 
 
 A simple REST & websocket server to expose a simple API
-to control a music player. Used by a [web client]( https://github.com/radio-pi/python-websocket-backend/blob/master/index.html) 
+to control a music player. Used by a [web client]( https://github.com/radio-pi/python-websocket-backend/blob/master/index.html)
 and an [Android APP]( https://github.com/radio-pi/RadioPi ).
 
 # Production
@@ -20,9 +20,10 @@ It's recommended to use virtualenv!
 
 Install dependencies with:
 
-``` 
+```
 pip install -r requirements.txt
-``` 
+pip install -e .
+```
 Run with:
 
 ```
@@ -34,7 +35,7 @@ Checkout the simple web client at [http://localhost:3000/index](http://localhost
 
 # Testing
 
-To run the test suite you need `tox`. 
+To run the test suite you need `tox`.
 
 ```
 tox -e py37
