@@ -1,6 +1,5 @@
-from twisted.internet import reactor
-
 from autobahn.twisted.websocket import WebSocketServerProtocol
+from twisted.internet import reactor
 
 from .player import PLAYER
 
@@ -53,7 +52,7 @@ class MpdProtocol(WebSocketServerProtocol):
             print("Text message received: {0}".format(message))
 
         # echo back message verbatim
-        self.sendMessage(payload)
+        # self.sendMessage(payload)
 
     def onClose(self, wasClean, code, reason):
         print("WebSocket connection closed: {0}".format(reason))
