@@ -7,6 +7,7 @@ import vlc
 from .IPlayerInterface import IPlayer
 from .sleep import Sleep
 
+
 class Player(IPlayer):
 
     def __init__(self):
@@ -38,7 +39,8 @@ class Player(IPlayer):
             response.read(metaint)
             metadata_length = struct.unpack('B', response.read(1))[0] * 16
             metadata = response.read(metadata_length).rstrip(b'\0')
-            metadata = metadata.decode('utf8')
+            metadata = self._decode_metadata(metadata)
+
             m = re.search(r"StreamTitle='([^']*)';", metadata)
             if m:
                 title = m.group(1)
@@ -69,3 +71,13 @@ class Player(IPlayer):
             return self.sleep_timer.remaining()
         else:
             return 0
+
+    def _decode_metadata(self, metadata):
+        try:
+            metadata = metadata.decode('utf8')
+        except UnicodeDecodeError:
+            try:
+                metadata = metadata.decode('latin-1')
+            except UnicodeDecodeError:
+                metadata = metadata.decode('utf8', errors='replace')
+        return metadata

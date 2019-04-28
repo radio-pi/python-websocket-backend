@@ -44,9 +44,9 @@
          };
 
          function updateVolume(){
-            console.log();
             volume = $('#volumeSlider')[0].value
             postData = {"volume": volume};
+            console.log("Update Volume: " + postData);
             $.ajax({
                  type: "POST",
                  url: "/volume",
@@ -72,7 +72,7 @@
 
          function play(url){
             console.log('play: ' + url);
-            
+
             postData = {"url": url};
             $.ajax({
                  type: "POST",
@@ -87,7 +87,7 @@
 
          function pause(){
             console.log('pause: ');
-            
+
             $.ajax({
                  type: "POST",
                  url: "/stop",
