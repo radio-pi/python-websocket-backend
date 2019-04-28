@@ -1,5 +1,5 @@
-from time import time
 from threading import Timer
+from time import time
 
 
 class Sleep():
@@ -15,15 +15,13 @@ class Sleep():
         self.__timer.start()
 
     def cancel(self):
-         self.__timer.cancel()
+        self.__timer.cancel()
 
     def remaining(self):
         # time passed - time set * 60 for minutes
-        print(time())
-        print(self.__start_time)
         remaining_time = (self.__time_in_sec - (time() - self.__start_time)) / 60
 
         if remaining_time < 0:
             remaining_time = 0
-        
+
         return int(remaining_time)

@@ -1,7 +1,8 @@
 import json
-from .player import PLAYER
 
 from twisted.web.resource import Resource
+
+from .player import PLAYER
 
 
 class PlayResource(Resource):
