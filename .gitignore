@@ -3,3 +3,4 @@ env
 .pytest_cache/
 .tox/
 radiopi.egg-info/
+twistd.pid
