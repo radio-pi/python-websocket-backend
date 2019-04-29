@@ -14,6 +14,9 @@ class IPlayer:
     def stop(self): raise NotImplementedError
 
     @abstractmethod
+    def get_playing_key(self): raise NotImplementedError
+
+    @abstractmethod
     def get_volume(self): raise NotImplementedError
 
     @abstractmethod

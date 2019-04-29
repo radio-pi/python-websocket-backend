@@ -31,6 +31,9 @@
 		  if ("title" in data){
                       console.log("Title: " + data.title);
 		  }
+		  if ("stream_key" in data){
+                      console.log("Stream key: " + data.stream_key);
+		  }
                } else {
                   console.log("Message received: " + e.data);
                }

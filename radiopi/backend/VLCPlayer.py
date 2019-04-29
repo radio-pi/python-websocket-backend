@@ -23,6 +23,13 @@ class Player(IPlayer):
     def stop(self):
         self.player.stop()
 
+    def get_playing_key(self):
+        url = ""
+        if self.player.get_media():
+            url = self.player.get_media().get_mrl()
+
+        return url
+
     def get_title(self):
         title = ''
         if not self.player.get_media():

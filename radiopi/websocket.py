@@ -10,6 +10,7 @@ class MpdProtocol(WebSocketServerProtocol):
         super(MpdProtocol, self).__init__()
         self.old_volume = -1
         self.old_title = ""
+        self.old_stream_key = ""
 
     def onConnect(self, request):
         print("Client connecting: {0}".format(request.peer))
@@ -19,6 +20,17 @@ class MpdProtocol(WebSocketServerProtocol):
         self.run = True
         self.doVolumeLoop()
         self.doTitleLoop()
+        self.doStreamLoop()
+
+    def doStreamLoop(self):
+        if self.run:
+            key = PLAYER.get_playing_key()
+            if key != self.old_stream_key:
+                self.old_stream_key = key
+
+                msg = '{"stream_key": "' + key + '"}'
+                self.sendMessage(msg.encode('utf8'))
+            reactor.callLater(2, self.doStreamLoop)
 
     def doTitleLoop(self):
         if self.run:
