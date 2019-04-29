@@ -21,7 +21,6 @@ class Player(IPlayer):
         self.player.play()
 
     def stop(self):
-        self.media = None
         self.player.stop()
 
     def get_title(self):
