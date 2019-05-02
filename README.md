@@ -30,7 +30,7 @@ Run with:
 twistd -ny service.tac
 ```
 
-Checkout the simple web client at [http://localhost:3000/index](http://localhost:3000/index)!
+Checkout the simple web client at [http://localhost:3000](http://localhost:3000)!
 
 
 # Testing

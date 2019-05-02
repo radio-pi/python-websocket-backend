@@ -27,7 +27,7 @@ root.putChild(b"stop", api.StopResource())
 root.putChild(b"volume", api.VolumeResource())
 root.putChild(b"sleeptimer", sleep_timer)
 root.putChild(b"streamurls", api.StreamUrlListResource())
-root.putChild(b"index", File('radiopi/static/index.html'))
+root.putChild(b"", File('radiopi/static/index.html'))
 site = Site(root)
 
 internet.TCPServer(3000, site).setServiceParent(rpi_service)
