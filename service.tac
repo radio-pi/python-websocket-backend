@@ -11,7 +11,7 @@ from autobahn.twisted.websocket import WebSocketServerFactory
 import sys
 sys.path.append('.')
 
-from radiopi import api, websocket
+from radiopi import api, websocket, images
 
 rpi_service = service.MultiService()
 
@@ -28,6 +28,7 @@ root.putChild(b"volume", api.VolumeResource())
 root.putChild(b"sleeptimer", sleep_timer)
 root.putChild(b"streamurls", api.StreamUrlListResource())
 root.putChild(b"", File('radiopi/static/index.html'))
+root.putChild(b"image", images.ImageRootResource())
 site = Site(root)
 
 internet.TCPServer(3000, site).setServiceParent(rpi_service)
