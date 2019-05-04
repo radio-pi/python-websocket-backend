@@ -22,12 +22,13 @@ class ImageResource(Resource):
             request.setRespnseCode(400)
             return b''
 
-        imgname = os.path.basename(self.path.decode('utf-8'))
+        name = self.path.decode('utf-8')
+        imgname = os.path.basename(name)
         imgpath = os.path.join('radiopi', 'static', 'image', imgname)
         imgpath = os.path.abspath(imgpath)
         if os.path.exists(imgpath):
             with open(imgpath, 'rb') as source:
-                filename = 'filename="%s"' % (self.path)
+                filename = 'filename="%s"' % (name)
                 request.setHeader('content-disposition', filename)
                 request.setHeader('content-type', 'image/jpg')
 
