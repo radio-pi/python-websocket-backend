@@ -26,7 +26,7 @@ class ImageResource(Resource):
         imgname = os.path.basename(name)
         imgpath = os.path.join('radiopi', 'static', 'image', imgname)
         imgpath = os.path.abspath(imgpath)
-        if os.path.exists(imgpath):
+        if os.path.isfile(imgpath):
             with open(imgpath, 'rb') as source:
                 filename = 'filename="%s"' % (name)
                 request.setHeader('content-disposition', filename)
