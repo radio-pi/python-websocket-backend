@@ -18,29 +18,39 @@ class MpdProtocol(WebSocketServerProtocol):
     def onOpen(self):
         print("WebSocket connection open.")
         self.run = True
+        
         self.doVolumeLoop()
+        self.sendVolume(PLAYER.get_volume())
+        
         self.doTitleLoop()
+        self.sendTitle(PLAYER.get_title())
+
         self.doStreamLoop()
+        self.sendStreamKey(PLAYER.get_playing_key())
 
     def doStreamLoop(self):
         if self.run:
             key = PLAYER.get_playing_key()
             if key != self.old_stream_key:
                 self.old_stream_key = key
-
-                msg = '{"stream_key": "' + key + '"}'
-                self.sendMessage(msg.encode('utf8'))
+                self.sendStreamKey(key)
             reactor.callLater(2, self.doStreamLoop)
+
+    def sendStreamKey(self, key):
+        msg = '{"stream_key": "' + key + '"}'
+        self.sendMessage(msg.encode('utf8'))
 
     def doTitleLoop(self):
         if self.run:
             title = PLAYER.get_title()
             if title != self.old_title:
                 self.old_title = title
-
-                msg = '{"title": "' + title + '"}'
-                self.sendMessage(msg.encode('utf8'))
+                self.sendTitle(title)
             reactor.callLater(4, self.doTitleLoop)
+
+    def sendTitle(self, title):
+        msg = '{"title": "' + title + '"}'
+        self.sendMessage(msg.encode('utf8'))
 
     def doVolumeLoop(self):
         if self.run:
@@ -53,10 +63,12 @@ class MpdProtocol(WebSocketServerProtocol):
                 # 60 -> 0
                 # 90 -> 100
                 #ret_vol = int((int(vol) - 60) / 0.3)
-
-                msg = '{"volume": ' + str(ret_vol) + '}'
-                self.sendMessage(msg.encode('utf8'))
+                self.sendVolume(vol)
             reactor.callLater(0.5, self.doVolumeLoop)
+
+    def sendVolume(self, vol):
+        msg = '{"volume": ' + str(vol) + '}'
+        self.sendMessage(msg.encode('utf8'))
 
     def onMessage(self, payload, isBinary):
         if not isBinary:
