@@ -101,7 +101,7 @@ class VolumeResource(Resource):
             # 000 -> 60
             # 100 -> 90
             vol = data['volume']
-            vol = int((float(vol) * 0.3) + 60)
+            #vol = int((float(vol) * 0.3) + 60)
 
             PLAYER.set_volume(vol)
 
@@ -113,6 +113,6 @@ class VolumeResource(Resource):
         # transform volume
         # 60 -> 0
         # 90 -> 100
-        vol = int((int(vol) - 60) / 0.3)
+        #vol = int((int(vol) - 60) / 0.3)
 
         return ('{"volume":' + str(vol) + '}').encode('utf8')

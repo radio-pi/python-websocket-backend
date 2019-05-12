@@ -52,7 +52,7 @@ class MpdProtocol(WebSocketServerProtocol):
                 # transform volume
                 # 60 -> 0
                 # 90 -> 100
-                ret_vol = int((int(vol) - 60) / 0.3)
+                #ret_vol = int((int(vol) - 60) / 0.3)
 
                 msg = '{"volume": ' + str(ret_vol) + '}'
                 self.sendMessage(msg.encode('utf8'))
