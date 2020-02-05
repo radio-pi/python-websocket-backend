@@ -5,7 +5,17 @@ from twisted.web.resource import Resource
 from .player import PLAYER
 
 
-class PlayResource(Resource):
+class CorsResource(Resource):
+    """
+    Default empty OPTIONS route for
+    preflight CORS.
+    https://developer.mozilla.org/en-US/docs/Glossary/Preflight_request
+    """
+    def render_OPTIONS(self, request):
+        return b''
+
+
+class PlayResource(CorsResource):
     def render_POST(self, request):
         content = request.content.getvalue().decode('utf8')
         data = json.loads(content)
@@ -14,13 +24,13 @@ class PlayResource(Resource):
         return b'{}'
 
 
-class StopResource(Resource):
+class StopResource(CorsResource):
     def render_POST(self, request):
         PLAYER.stop()
         return b'{}'
 
 
-class SleepTimerResource(Resource):
+class SleepTimerResource(CorsResource):
     def render_GET(self, request):
         timeinminutes = PLAYER.get_sleep_timer()
         return ('{"sleeptimer":' + str(timeinminutes) + '}').encode('utf8')
@@ -38,7 +48,7 @@ class SleepTimerResource(Resource):
         PLAYER.set_sleep_timer(0)
 
 
-class StreamUrlListResource(Resource):
+class StreamUrlListResource(CorsResource):
     def render_GET(self, request):
         streamlist = [{
                         'name': 'Hardbase',
@@ -61,19 +71,19 @@ class StreamUrlListResource(Resource):
                       {
                         'name': 'Radio SRF 1',
                         'url': 'http://stream.srg-ssr.ch/m/drs1/mp3_128',
-                        'img': '',
+                        'img': 'https://www.srf.ch/play/v3/svgs/radio-srf-1-small.svg',
                         'orderid': 3
                       },
                       {
                         'name': 'Radio SRF 2',
                         'url': 'http://stream.srg-ssr.ch/m/drs2/mp3_128',
-                        'img': '',
+                        'img': 'https://www.srf.ch/play/v3/svgs/radio-srf-2-kultur-small.svg',
                         'orderid': 4
                       },
                       {
                         'name': 'Radio SRF 3',
                         'url': 'http://stream.srg-ssr.ch/m/drs3/mp3_128',
-                        'img': '',
+                        'img': 'https://www.srf.ch//play/v3/svgs/radio-srf-3-small.svg',
                         'orderid': 5},
                       {
                         'name': 'Radio Swiss Jazz',
@@ -90,7 +100,7 @@ class StreamUrlListResource(Resource):
         return json.dumps(streamlist).encode('utf8')
 
 
-class VolumeResource(Resource):
+class VolumeResource(CorsResource):
     def render_POST(self, request):
         vol = -1
         content = request.content.getvalue().decode('utf8')
