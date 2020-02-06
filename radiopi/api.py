@@ -7,8 +7,7 @@ from .player import PLAYER
 
 class CorsResource(Resource):
     """
-    Default empty OPTIONS route for
-    preflight CORS.
+    Default empty OPTIONS route for preflight CORS.
     https://developer.mozilla.org/en-US/docs/Glossary/Preflight_request
     """
     def render_OPTIONS(self, request):
