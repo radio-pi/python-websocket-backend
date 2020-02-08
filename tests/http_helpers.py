@@ -297,6 +297,3 @@ class DummyRequest(RequestHelperDummyRequest):
         newRequest = type(request)
         newRequest.uri = request.uri
         return newRequest
-
-
-#DummyRequest = RequestHelperDummyRequest
