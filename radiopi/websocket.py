@@ -20,13 +20,13 @@ class MpdProtocol(WebSocketServerProtocol):
         self.run = True
         
         self.doVolumeLoop()
-        self.sendVolume(PLAYER.get_volume())
+        #self.sendVolume(PLAYER.get_volume())
         
         self.doTitleLoop()
-        self.sendTitle(PLAYER.get_title())
+        #self.sendTitle(PLAYER.get_title())
 
         self.doStreamLoop()
-        self.sendStreamKey(PLAYER.get_playing_key())
+        #self.sendStreamKey(PLAYER.get_playing_key())
 
     def doStreamLoop(self):
         if self.run:

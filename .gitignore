@@ -4,3 +4,5 @@ env
 .tox/
 radiopi.egg-info/
 twistd.pid
+testenv/
+env2

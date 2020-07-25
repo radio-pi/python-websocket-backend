@@ -70,19 +70,22 @@ class StreamUrlListResource(CorsResource):
                       {
                         'name': 'Radio SRF 1',
                         'url': 'http://stream.srg-ssr.ch/m/drs1/mp3_128',
-                        'img': 'https://www.srf.ch/play/v3/svgs/radio-srf-1-small.svg',
+                        #'img': 'https://www.srf.ch/play/v3/svgs/radio-srf-1-small.svg',
+                        'img': '/image/srf1.png',
                         'orderid': 3
                       },
                       {
                         'name': 'Radio SRF 2',
                         'url': 'http://stream.srg-ssr.ch/m/drs2/mp3_128',
-                        'img': 'https://www.srf.ch/play/v3/svgs/radio-srf-2-kultur-small.svg',
+                        #'img': 'https://www.srf.ch/play/v3/svgs/radio-srf-2-kultur-small.svg',
+                        'img': '/image/srf2.png',
                         'orderid': 4
                       },
                       {
                         'name': 'Radio SRF 3',
                         'url': 'http://stream.srg-ssr.ch/m/drs3/mp3_128',
-                        'img': 'https://www.srf.ch//play/v3/svgs/radio-srf-3-small.svg',
+                        #'img': 'https://www.srf.ch//play/v3/svgs/radio-srf-3-small.svg',
+                        'img': '/image/srf3.jpg',
                         'orderid': 5},
                       {
                         'name': 'Radio Swiss Jazz',

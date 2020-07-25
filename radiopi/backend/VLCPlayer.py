@@ -2,7 +2,8 @@ import re
 import struct
 import urllib.request as urllib2
 
-import vlc
+#import vlc
+import vlc as vlc
 
 from .IPlayerInterface import IPlayer
 from .sleep import Sleep
@@ -59,7 +60,7 @@ class Player(IPlayer):
         return vol
 
     def set_volume(self, volume):
-        self.player.audio_set_volume(volume)
+        self.player.audio_set_volume(float(volume))
 
     def set_sleep_timer(self, timeInMinutes):
         """
