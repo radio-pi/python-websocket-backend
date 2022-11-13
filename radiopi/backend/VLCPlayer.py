@@ -9,7 +9,6 @@ from .sleep import Sleep
 
 
 class Player(IPlayer):
-
     def __init__(self):
         self.instance = vlc.Instance("--no-xlib")
         self.player = self.instance.media_player_new()
@@ -31,20 +30,20 @@ class Player(IPlayer):
         return url
 
     def get_title(self):
-        title = ''
+        title = ""
         if not self.player.get_media():
             return title
 
         url = self.player.get_media().get_mrl()
 
-        request = urllib2.Request(url, headers={'Icy-MetaData': 1})
+        request = urllib2.Request(url, headers={"Icy-MetaData": 1})
         response = urllib2.urlopen(request)
-        metaint = int(response.headers['icy-metaint'])
+        metaint = int(response.headers["icy-metaint"])
 
         for _ in range(200):
             response.read(metaint)
-            metadata_length = struct.unpack('B', response.read(1))[0] * 16
-            metadata = response.read(metadata_length).rstrip(b'\0')
+            metadata_length = struct.unpack("B", response.read(1))[0] * 16
+            metadata = response.read(metadata_length).rstrip(b"\0")
             metadata = self._decode_metadata(metadata)
 
             m = re.search(r"StreamTitle='([^']*)';", metadata)
@@ -64,7 +63,7 @@ class Player(IPlayer):
     def set_sleep_timer(self, timeInMinutes):
         """
         Create a new sleep timer. Cancels any existing timers.
-        When set to 0 cancles timers.
+        When set to 0 cancels timers.
         """
         if self.sleep_timer:
             self.sleep_timer.cancel()
@@ -80,10 +79,10 @@ class Player(IPlayer):
 
     def _decode_metadata(self, metadata):
         try:
-            metadata = metadata.decode('utf8')
+            metadata = metadata.decode("utf8")
         except UnicodeDecodeError:
             try:
-                metadata = metadata.decode('latin-1')
+                metadata = metadata.decode("latin-1")
             except UnicodeDecodeError:
-                metadata = metadata.decode('utf8', errors='replace')
+                metadata = metadata.decode("utf8", errors="replace")
         return metadata

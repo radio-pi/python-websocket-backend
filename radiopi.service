@@ -5,7 +5,7 @@ After=syslog.target
 [Service]
 Type=simple
 WorkingDirectory=/usr/local/src/radiopi
-ExecStart=/usr/local/src/radiopi/env/bin/twistd --nodaemon --pidfile= -y service.tac
+ExecStart=/usr/local/src/radiopi/env/bin/uvicorn radiopi.main:app --host 0.0.0.0
 StandardOutput=syslog
 StandardError=syslog
 

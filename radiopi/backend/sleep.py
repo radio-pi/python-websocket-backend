@@ -2,7 +2,7 @@ from threading import Timer
 from time import time
 
 
-class Sleep():
+class Sleep:
     def __init__(self, sleepInMinutes, callbackFnc):
         self.__time_in_sec = sleepInMinutes * 60
         self.__callback = callbackFnc
