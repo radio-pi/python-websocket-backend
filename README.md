@@ -7,7 +7,7 @@ and an [Android APP]( https://github.com/radio-pi/RadioPi ).
 
 # Production
 
-Please check out these two turorials:
+Please check out these two tutorials:
 
   * [General setup]( https://radio-pi.github.io/2016-01-12-setup-a-radio-pi/  )
   * [Software setup]( https://radio-pi.github.io/2016-01-13-setup-a-radio-pi-software/ )
