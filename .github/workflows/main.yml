@@ -23,4 +23,4 @@ jobs:
     - name: Install vlc
       run: sudo apt-get install -y vlc
     - name: Test with pytest
-      run: py.test tests/
+      run: python -m pytest tests/
