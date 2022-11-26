@@ -1,18 +1,17 @@
 from setuptools import setup, find_packages
 
 requirements = [
-    "autobahn",
-    "Twisted",
-    "ujson",
-    "python-vlc",
-    "python-mpd2",
+    "fastapi==0.86.0",
+    "websockets==10.4",
+    "python-vlc==3.0.16120",
+    "python-mpd2==3.0.5",
 ]
 
 if __name__ == '__main__':
 
     setup(
         name='radiopi',
-        version='0.1.0',
+        version='0.3.0',
         description='API for your music player.',
         long_description='A simple REST & websocket server to expose a simple API to controll a music player.',
         url='https://github.com/radio-pi/python-websocket-backend',
@@ -27,10 +26,9 @@ if __name__ == '__main__':
             'Operating System :: POSIX',
             'Operating System :: POSIX :: Linux',
             'Programming Language :: Python',
-            'Programming Language :: Python :: 3.4',
-            'Programming Language :: Python :: 3.5',
-            'Programming Language :: Python :: 3.6',
-            'Programming Language :: Python :: 3.7',
+            'Programming Language :: Python :: 3.9',
+            'Programming Language :: Python :: 3.10',
+            'Programming Language :: Python :: 3.11',
             'Programming Language :: Python :: Implementation',
             'Programming Language :: Python :: Implementation :: CPython',
             'Programming Language :: Python :: 3 :: Only',

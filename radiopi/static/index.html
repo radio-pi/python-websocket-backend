@@ -14,7 +14,7 @@
             // load station list
             getRadioStationList();
 
-            socket = new WebSocket("ws://127.0.0.1:9000");
+            socket = new WebSocket(`ws://${window.location.host}/ws`);
 
             socket.onopen = function() {
                console.log("Connected!");
@@ -24,16 +24,16 @@
             socket.onmessage = function(e) {
                if (typeof e.data == "string") {
                   console.log("Text message received: " + e.data);
-		  data = JSON.parse(e.data)
-		  if ("volume" in data){
+                  data = JSON.parse(e.data)
+                  if ("volume" in data){
                       $('#volumeSlider')[0].value = data.volume;
-		  }
-		  if ("title" in data){
+                  }
+                  if ("title" in data){
                       console.log("Title: " + data.title);
-		  }
-		  if ("stream_key" in data){
+                  }
+                  if ("stream_key" in data){
                       console.log("Stream key: " + data.stream_key);
-		  }
+                  }
                } else {
                   console.log("Message received: " + e.data);
                }
@@ -49,7 +49,7 @@
          function updateVolume(){
             volume = $('#volumeSlider')[0].value
             postData = {"volume": volume};
-            console.log("Update Volume: " + postData);
+            console.log("Update Volume: " + JSON.stringify(postData));
             $.ajax({
                  type: "POST",
                  url: "/volume",
@@ -62,9 +62,8 @@
 
          function getRadioStationList() {
             $.get("/streamurls", function(data, status){
-                  json = JSON.parse(data);
-                  for(index in json){
-                     item = json[index];
+                  for(index in data){
+                     item = data[index];
 
                      btn = "<button onclick='play(\"" + item.url + "\");'>play</button>"
                      element = "<li>" + item.name + btn + "</li>";
@@ -88,8 +87,8 @@
          }
 
 
-         function pause(){
-            console.log('pause: ');
+         function stop(){
+            console.log('stop stream');
 
             $.ajax({
                  type: "POST",
@@ -107,7 +106,7 @@
          <ul id="radiolist"></ul>
       </div>
 
-      <button onclick='pause();'>pause</button>
+      <button onclick='stop();'>stop</button>
       <div class="slidecontainer">
          Volume:
         <input type="range" min="1" max="100" value="50" id="volumeSlider" onchange="updateVolume()">

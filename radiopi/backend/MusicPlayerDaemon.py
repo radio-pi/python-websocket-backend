@@ -1,11 +1,11 @@
 from .IPlayerInterface import IPlayer
 from mpd import MPDClient, ConnectionError
 
-HOST = 'localhost'
+HOST = "localhost"
 PORT = 6600
 
-class Player(IPlayer):
 
+class Player(IPlayer):
     def __init__(self):
         mclient = MPDClient()
         mclient.connect(HOST, PORT)
@@ -25,7 +25,7 @@ class Player(IPlayer):
     def get_volume(self):
         self.__client_alive()
         statusDICT = self.client.status()
-        vol = statusDICT.get('volume')
+        vol = statusDICT.get("volume")
         return vol
 
     def set_volume(self, volume):
