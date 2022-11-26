@@ -14,7 +14,7 @@
             // load station list
             getRadioStationList();
 
-            socket = new WebSocket("ws://127.0.0.1:8000/ws");
+            socket = new WebSocket(`ws://${window.location.host}/ws`);
 
             socket.onopen = function() {
                console.log("Connected!");
