@@ -54,6 +54,7 @@ async def volume():
 @app.post("/volume")
 async def volume(data: VolumeRequest):
     PLAYER.set_volume(data.volume)
+    await manager.broadcast({"volume": f"{data.volume}"})
     return {}
 
 
@@ -137,7 +138,6 @@ class ConnectionManager:
         self.active_connections: List[WebSocket] = []
 
         # State
-        self.old_volume = -1
         self.old_title = ""
         self.old_stream_key = ""
 
@@ -175,12 +175,6 @@ async def websocket_endpoint(websocket: WebSocket):
         )
         while True:
             await asyncio.sleep(0.1)
-
-            # check volume
-            volume = PLAYER.get_volume()
-            if volume != manager.old_volume:
-                manager.old_volume = volume
-                await manager.broadcast({"volume": f"{volume}"})
 
             # check title
             title = PLAYER.get_title()
