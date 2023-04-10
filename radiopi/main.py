@@ -2,6 +2,7 @@ from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
+from websockets.exceptions import ConnectionClosedOK
 
 from pathlib import Path
 import json
@@ -153,7 +154,10 @@ class ConnectionManager:
 
     async def broadcast(self, message: str):
         for connection in self.active_connections:
-            await connection.send_text(json.dumps(message))
+            try:
+                await connection.send_text(json.dumps(message))
+            except ConnectionClosedOK:
+                self.disconnect(connection)
 
 
 manager = ConnectionManager()
