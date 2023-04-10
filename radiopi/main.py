@@ -7,8 +7,14 @@ from websockets.exceptions import ConnectionClosedOK
 from pathlib import Path
 import json
 import asyncio
+import logging
+from logging.config import dictConfig
 
 from .player import PLAYER
+from .config import LogConfig
+
+dictConfig(LogConfig().dict())
+logger = logging.getLogger("radiopi")
 
 
 class PlayRequest(BaseModel):
@@ -67,13 +73,14 @@ async def sleeptimer_get():
 
 @app.post("/sleeptimer")
 async def sleeptimer_post(data: SleepTimerRequest):
+    logger.info(f"Set sleeptimer to {data.time}")
     PLAYER.set_sleep_timer(data.time)
     return {}
 
 
 @app.post("/sleeptimer/cancle")
 async def sleeptimer_cancle():
-    print("cancel")
+    logger.info("Cancle sleeptimer")
     PLAYER.set_sleep_timer(0)
     return {}
 
@@ -194,4 +201,4 @@ async def websocket_endpoint(websocket: WebSocket):
 
     except WebSocketDisconnect:
         manager.disconnect(websocket)
-        print(f"Client #{1} left the chat")
+        logger.info("Client left")
