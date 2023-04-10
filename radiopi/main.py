@@ -47,32 +47,32 @@ async def stop():
 
 
 @app.get("/volume")
-async def volume():
+async def volume_get():
     vol = PLAYER.get_volume()
     return {"volume": f"{vol}"}
 
 
 @app.post("/volume")
-async def volume(data: VolumeRequest):
+async def volume_post(data: VolumeRequest):
     PLAYER.set_volume(data.volume)
     await manager.broadcast({"volume": f"{data.volume}"})
     return {}
 
 
 @app.get("/sleeptimer")
-async def sleeptimer():
+async def sleeptimer_get():
     timeinminutes = PLAYER.get_sleep_timer()
     return {"sleeptimer": f"{timeinminutes}"}
 
 
 @app.post("/sleeptimer")
-async def sleeptimer(data: SleepTimerRequest):
+async def sleeptimer_post(data: SleepTimerRequest):
     PLAYER.set_sleep_timer(data.time)
     return {}
 
 
 @app.post("/sleeptimer/cancle")
-async def sleeptimer():
+async def sleeptimer_cancle():
     print("cancel")
     PLAYER.set_sleep_timer(0)
     return {}
