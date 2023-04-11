@@ -1,17 +1,19 @@
+import asyncio
+import json
+import logging
+import signal
+from contextlib import asynccontextmanager
+from logging.config import dictConfig
+from pathlib import Path
+
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from websockets.exceptions import ConnectionClosedOK
 
-from pathlib import Path
-import json
-import asyncio
-import logging
-from logging.config import dictConfig
-
-from .player import PLAYER
 from .config import LogConfig
+from .player import PLAYER
 
 dictConfig(LogConfig().dict())
 logger = logging.getLogger("radiopi")
@@ -29,7 +31,19 @@ class SleepTimerRequest(BaseModel):
     time: int  # in minutes
 
 
-app = FastAPI()
+def stop_server(*args):
+    app.state.running = False
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    app.state.running = True
+    signal.signal(signal.SIGINT, stop_server)
+    yield
+    # shutdown is called via signal
+
+
+app = FastAPI(lifespan=lifespan)
 
 app.mount("/image", StaticFiles(directory="radiopi/static/image"), name="image")
 
@@ -184,7 +198,7 @@ async def websocket_endpoint(websocket: WebSocket):
         await manager.send_personal_message(
             {"stream_key": f"{PLAYER.get_playing_key()}"}, websocket
         )
-        while True:
+        while app.state.running:
             await asyncio.sleep(0.1)
 
             # check title
