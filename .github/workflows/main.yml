@@ -21,6 +21,6 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements-dev.txt
     - name: Install vlc
-      run: sudo apt-get install -y vlc
+      run: sudo apt update && sudo apt-get install -y vlc
     - name: Test with pytest
       run: python -m pytest tests/
