@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 requirements = [
-    "fastapi==0.95.0",
+    "fastapi==0.109.1",
     "websockets==11.0.1",
     "python-vlc==3.0.18121",
     "python-mpd2==3.0.5",
