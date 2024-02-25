@@ -15,7 +15,7 @@ from websockets.exceptions import ConnectionClosedOK
 from .config import LogConfig
 from .player import PLAYER
 
-dictConfig(LogConfig().dict())
+dictConfig(LogConfig().model_dump())
 logger = logging.getLogger("radiopi")
 
 
