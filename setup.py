@@ -11,7 +11,7 @@ if __name__ == '__main__':
 
     setup(
         name='radiopi',
-        version='0.3.0',
+        version='0.3.4',
         description='API for your music player.',
         long_description='A simple REST & websocket server to expose a simple API to controll a music player.',
         url='https://github.com/radio-pi/python-websocket-backend',
