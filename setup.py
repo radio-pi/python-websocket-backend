@@ -1,10 +1,10 @@
 from setuptools import setup, find_packages
 
 requirements = [
-    "fastapi==0.95.0",
-    "websockets==11.0.1",
-    "python-vlc==3.0.18121",
-    "python-mpd2==3.0.5",
+    "fastapi==0.110.0",
+    "websockets==12.0",
+    "python-vlc==3.0.20123",
+    "python-mpd2==3.1.1",
 ]
 
 if __name__ == '__main__':

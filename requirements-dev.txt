@@ -1,5 +1,5 @@
 -r requirements.txt
-uvicorn[standard]==0.21.1
+uvicorn[standard]==0.27.1
 httpx
 pytest
 pytest-cov
