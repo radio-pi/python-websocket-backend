@@ -116,7 +116,7 @@ async def streamurls():
         },
         {
             "name": "Radio 24",
-            "url": "http://icecast.radio24.ch/radio24",
+            "url": "https://stream.streambase.ch/radio24/mp3-192/radiode/",
             "img": "https://upload.wikimedia.org/wikipedia/de/thumb/3/33/Radio_24_Logo.svg/154px-Radio_24_Logo.svg.png",
             "orderid": 0,
         },
